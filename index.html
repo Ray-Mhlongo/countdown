@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown till I get to taste Okuhle's lasagna</title>
+    <title>Okuhle's Overdue Lasagna</title>
 
     <style>
         * {
@@ -27,9 +26,9 @@
 
         .container {
             width: 100%;
-            max-width: 750px;
-            padding: 40px 20px;
-            background: rgba(0, 0, 0, 0.3);
+            max-width: 850px;
+            padding: 45px 20px;
+            background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
@@ -49,21 +48,22 @@
 
         .countdown {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 12px;
         }
 
         .time-box {
-            padding: 20px 8px;
+            padding: 22px 8px;
             background: rgba(255, 255, 255, 0.12);
             border-radius: 16px;
         }
 
         .number {
             display: block;
-            font-size: clamp(2rem, 7vw, 3.5rem);
+            font-size: clamp(1.8rem, 6vw, 3rem);
             font-weight: bold;
             font-variant-numeric: tabular-nums;
+            color: #ffb47b;
         }
 
         .label {
@@ -74,93 +74,111 @@
         }
 
         .footer {
-            margin-top: 30px;
+            margin-top: 35px;
             font-size: 1rem;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
-        @media (max-width: 450px) {
+        .overdue {
+            color: #ffb47b;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 550px) {
             .container {
                 padding: 30px 12px;
             }
 
             .countdown {
-                gap: 8px;
-            }
-
-            .time-box {
-                padding: 18px 4px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
         }
     </style>
 </head>
 
 <body>
+
     <main class="container">
-        <h1>Countdown till I get to taste Okuhle's lasagna</h1>
+
+        <h1>Okuhle's Lasagna Tracker 🍝</h1>
 
         <p class="subtitle">
-            Every second brings me closer to greatness. 🍝
+            Every second that passes is another second without lasagna.
         </p>
 
-        <div class="countdown" id="countdown">
+        <div class="countdown">
+
             <div class="time-box">
-                <span class="number" id="hours">00</span>
+                <span class="number" id="days">-00</span>
+                <span class="label">Days</span>
+            </div>
+
+            <div class="time-box">
+                <span class="number" id="hours">-00</span>
                 <span class="label">Hours</span>
             </div>
 
             <div class="time-box">
-                <span class="number" id="minutes">00</span>
+                <span class="number" id="minutes">-00</span>
                 <span class="label">Minutes</span>
             </div>
 
             <div class="time-box">
-                <span class="number" id="seconds">00</span>
+                <span class="number" id="seconds">-00</span>
                 <span class="label">Seconds</span>
             </div>
+
         </div>
 
         <p class="footer" id="message">
-            Friday, 23 October 2026 at 5:00 PM 🇿🇦<br>
-            The lasagna awaits.
+            <span class="overdue">STATUS: OVERDUE 🚨</span><br>
+            Originally scheduled for 23 October 2026 at 5:00 PM 🇿🇦
+            <br>
+            The lasagna is still outstanding.
         </p>
+
     </main>
 
     <script>
-        const targetDate = new Date("2026-10-23T15:00:00Z");
+
+        // Original lasagna appointment
+        const targetDate = new Date("2026-10-23T17:00:00+02:00");
 
         function updateCountdown() {
-            const difference = targetDate.getTime() - Date.now();
 
-            const countdown = document.getElementById("countdown");
-            const message = document.getElementById("message");
-
-            if (difference <= 0) {
-                countdown.style.display = "none";
-                message.innerHTML =
-                    "IT'S LASAGNA TIME! 🍝🎉<br>" +
-                    "Okuhle, the moment has arrived!";
-                return;
-            }
+            const difference = Date.now() - targetDate.getTime();
 
             const totalSeconds = Math.floor(difference / 1000);
 
-            const hours = Math.floor(totalSeconds / 3600);
+            const days = Math.floor(totalSeconds / 86400);
+
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+
             const minutes = Math.floor((totalSeconds % 3600) / 60);
+
             const seconds = totalSeconds % 60;
 
+            document.getElementById("days").textContent =
+                "-" + String(days).padStart(2, "0");
+
             document.getElementById("hours").textContent =
-                String(hours).padStart(2, "0");
+                "-" + String(hours).padStart(2, "0");
 
             document.getElementById("minutes").textContent =
-                String(minutes).padStart(2, "0");
+                "-" + String(minutes).padStart(2, "0");
 
             document.getElementById("seconds").textContent =
-                String(seconds).padStart(2, "0");
+                "-" + String(seconds).padStart(2, "0");
+
         }
 
         updateCountdown();
+
         setInterval(updateCountdown, 1000);
+
     </script>
+
 </body>
 </html>
